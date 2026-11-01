@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AccessLearn AI · Lecture Intelligence Console</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{--bg:#f6f8fa;--pan:#fff;--ink:#1f2328;--mute:#656d76;--line:#d0d7de;--g:#1a7f37;--b:#0969da;--p:#8250df;--y:#9a6700;--r:#cf222e;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1117;--pan:#161b22;--ink:#e6edf3;--mute:#8b949e;--line:#30363d;--g:#3fb950;--b:#58a6ff;--p:#bc8cff;--y:#d29922;--r:#ff7b72}}
+:root[data-theme="dark"]{--bg:#0d1117;--pan:#161b22;--ink:#e6edf3;--mute:#8b949e;--line:#30363d;--g:#3fb950;--b:#58a6ff;--p:#bc8cff;--y:#d29922;--r:#ff7b72}
+*{box-sizing:border-box}html,body{height:100%}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{display:grid;grid-template-columns:270px 1fr;min-height:100%}
+aside{border-right:1px solid var(--line);background:var(--pan);padding:16px;display:flex;flex-direction:column;gap:12px}
+.brand{font:700 17px var(--mono)}.brand span{color:var(--g)}
+main{padding:18px 22px;min-width:0}
+.btn{background:var(--g);color:#04120a;border:0;border-radius:8px;padding:9px 14px;font:600 14px Inter,sans-serif;cursor:pointer}
+.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.li{display:flex;justify-content:space-between;gap:6px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;cursor:pointer}
+.li.on{border-color:var(--g);background:#3fb95014}.li small{color:var(--mute);font:12px var(--mono);display:block}.li b{font-size:13.5px}
+.x{background:none;border:0;color:var(--mute);cursor:pointer}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:16px}
+.tab{background:none;border:0;border-bottom:2px solid transparent;color:var(--mute);padding:8px 12px;font:13px var(--mono);cursor:pointer}.tab.on{color:var(--ink);border-color:var(--g)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.m{background:var(--pan);border:1px solid var(--line);border-radius:10px;padding:12px}.m b{display:block;font:700 26px var(--mono);color:var(--g)}.m span{font-size:12px;color:var(--mute)}
+.card{background:var(--pan);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+h2{margin:0 0 8px;font-size:18px}h3{margin:0 0 6px;font-size:15px}.mute{color:var(--mute)}.mono{font-family:var(--mono)}
+.chip{display:inline-block;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:3px 11px;margin:2px 4px 2px 0;font:12px var(--mono);cursor:pointer}.chip:hover{border-color:var(--g)}.chip.hot{border-color:var(--y);color:var(--y)}
+.bar{height:8px;border-radius:5px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--b),var(--g))}
+.seg{display:flex;gap:10px;padding:7px 9px;border-radius:8px;cursor:pointer;border-left:3px solid transparent}.seg:hover{background:#8b949e14}.seg.now{background:#3fb95018;border-color:var(--g)}
+.ts{font:700 12px var(--mono);color:var(--b);min-width:46px;padding-top:2px}
+mark{background:#d2992233;color:inherit;border-radius:3px;padding:0 2px}mark.sel{background:#3fb95066}
+.term{background:#010409;color:#c9d1d9;border:1px solid var(--line);border-radius:10px;padding:12px;font:12.5px/1.7 var(--mono);min-height:150px;max-height:260px;overflow:auto}.term .ok{color:#3fb950}.term .wr{color:#d29922}
+input[type=text],textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:90px;font:12.5px var(--mono)}
+.modal{position:fixed;inset:0;background:#000b;z-index:50;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:20px}
+.modal>div{background:var(--pan);border:1px solid var(--line);border-radius:14px;padding:20px;width:100%;max-width:640px}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:16px;text-align:center;margin:10px 0;color:var(--mute)}.drop.on{border-color:var(--g)}
+.hide{display:none!important}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>input{flex:1;min-width:180px;width:auto}
+video{width:100%;border-radius:10px;background:#000;margin-bottom:10px;max-height:300px}
+#gc{width:100%;height:460px;display:block;background:var(--bg);border:1px solid var(--line);border-radius:10px;cursor:pointer}
+pre{background:#010409;color:#c9d1d9;border-radius:10px;padding:12px;overflow:auto;max-height:420px;font:12px/1.5 var(--mono);margin:0}
+@media(max-width:800px){.app{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}}
+</style></head><body>
+<div class="app">
+<aside><div class="brand">▍AccessLearn<span>.ai</span></div><div class="mute" style="font-size:12px">Lecture Intelligence Console</div>
+<button class="btn" id="nb">＋ New lecture</button><div id="lib"></div>
+<div class="mute" style="font:11px var(--mono);margin-top:auto">pipeline: parse → tokenize → extract → AI refine → link → index</div></aside>
+<main><div class="tabs" id="tabs"></div><div id="pane"></div></main></div>
+
+<div class="modal hide" id="up"><div>
+ <h2>Analyze a lecture</h2><p class="mute" style="margin:0 0 10px">Add a transcript (.txt, .srt, .vtt or lines like “[02:30] text”) and optionally the video. Whisper would produce this transcript in the full build.</p>
+ <input type="text" id="tt" placeholder="Lecture title, e.g. Data Structures: Linked Lists">
+ <div class="drop" id="dz">Drop transcript here or <label style="color:var(--b);cursor:pointer">browse<input type="file" id="tf" accept=".txt,.srt,.vtt,.md" hidden></label><div id="tfn" class="mono" style="font-size:12px"></div></div>
+ <textarea id="tp" placeholder="…or paste transcript text here"></textarea>
+ <div class="drop">Optional lecture video (plays locally, enables jump-to-timestamp) <label style="color:var(--b);cursor:pointer">choose<input type="file" id="vf" accept="video/*" hidden></label><div id="vfn" class="mono" style="font-size:12px"></div></div>
+ <div id="term" class="term hide"></div>
+ <div class="row" style="margin-top:12px"><button class="btn" id="go">Run analysis</button><button class="btn g" id="sm">Load sample Java course</button><button class="btn g" id="cl">Close</button></div>
+</div></div>
+<script>
+const SAMPLE=[
+['Java Basics: Classes and Objects',[[0,'Welcome to Java programming. Today we introduce classes and objects, the foundation of object oriented programming.'],[60,'A class is a blueprint that defines fields and methods. An object is an instance of a class created at runtime.'],[150,'To create an object we use the new keyword, which calls the constructor of the class.'],[240,'A constructor initializes the fields of the object. If we write no constructor Java provides a default constructor.'],[330,'Fields hold the state of an object while methods define its behaviour.'],[420,'Encapsulation means we keep fields private and expose them through getter and setter methods.'],[510,'Encapsulation protects the internal state of an object and keeps the class easy to change.'],[600,'Next lecture we will extend one class from another using inheritance.']]],
+['Inheritance and Method Overriding',[[0,'Last time we built classes and objects with constructors. Today we study inheritance.'],[70,'Inheritance lets a subclass reuse the fields and methods of a superclass using the extends keyword.'],[160,'A Dog class can extend an Animal class, so every Dog object is also an Animal object.'],[250,'The super keyword lets a subclass call the constructor of its superclass.'],[340,'A subclass can change behaviour by method overriding, redefining a method inherited from the superclass.'],[430,'Use the override annotation so the compiler checks that method overriding is correct.'],[520,'Abstract classes define a partial blueprint with abstract methods that every subclass must implement.'],[610,'Inheritance gives code reuse, but deep inheritance hierarchies make code hard to maintain. This prepares us for polymorphism.']]],
+['Polymorphism and Interfaces',[[0,'Polymorphism means one interface with many forms. It builds on inheritance and method overriding.'],[80,'A superclass reference can point to a subclass object, and Java runs the overridden method at runtime.'],[170,'This is called dynamic method dispatch, and it is the core of runtime polymorphism.'],[260,'An interface defines a contract of methods that unrelated classes can implement.'],[350,'A class can implement many interfaces, but it can extend only one abstract class.'],[440,'Use an abstract class when subclasses share state, and use an interface when they only share behaviour.'],[530,'Encapsulation still matters because polymorphic code should call only public methods of each object.'],[620,'Polymorphism makes code flexible, since new subclasses work with existing code without changes.']]]];
+const STOP=new Set(('a an the and or but if then of to in on at by for with from as is are was were be been being it its this that these those they them we us you your our i he she his her not no yes so do does did done have has had will would can could should may might must just very much more most some any all each every other such than too only own same into over under again once here there when where why how what which who about after before between during through up down out off while because until also let lets get got going go goes say said see saw make makes made know like one two three first second next last now today lecture example examples called call use used using way ways thing things time kind sort lot bit really actually basically simply means mean new old good great well back even still yet define defines defined keep keeps many allows allow gives give provides provide work works create created write small hold holds change changes make makes need needs want wants take takes put puts find finds show shows tell tells ask asks look looks help helps try tries').split(' '));
+const stem=w=>w.replace(/sses$/,'ss').replace(/ies$/,'y').replace(/([^s])s$/,'$1');
+const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fmt=t=>{t=Math.floor(t);return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
+const RX={},rx=n=>RX[n]||(RX[n]=new RegExp('\\b'+n.trim().split(/\s+/).map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('\\s+')+'(?:es|s)?\\b','i'));
+let LIB=[],VID={},cur=null,tab='over',selC=null,sample=null,dl=null,pending={vid:null,fname:'',text:''};
+try{LIB=JSON.parse(localStorage.getItem('al3')||'[]')}catch(e){}
+const persist=()=>{try{localStorage.setItem('al3',JSON.stringify(LIB))}catch(e){}};
+(async()=>{try{sample=await claude.use('sample')}catch(e){}try{dl=await claude.use('downloads')}catch(e){}})();
+const PAL=['#58a6ff','#bc8cff','#3fb950','#ff7b72','#d29922','#39c5cf'];
+const colOf=id=>PAL[Math.max(0,LIB.findIndex(l=>l.id===id))%6];
+// ---------- parsing ----------
+function parse(raw){raw=raw.replace(/\r/g,'').trim();let segs=[],est=false;
+ const ts=s=>{const p=s.split(':').map(parseFloat);return p.length==3?p[0]*3600+p[1]*60+p[2]:p[0]*60+p[1]};
+ if(/-->/.test(raw)){raw.split(/\n\n+/).forEach(b=>{const L=b.split('\n'),i=L.findIndex(x=>x.includes('-->'));if(i<0)return;const m=L[i].match(/(\d+:)?\d+:\d+[.,]?\d*/);const t=ts(m[0].replace(',','.'));const x=L.slice(i+1).join(' ').replace(/<[^>]+>/g,'').trim();if(x)segs.push([t,x])})}
+ else if(/^\[?\d{1,2}:\d{2}/m.test(raw)){raw.split('\n').forEach(l=>{const m=l.match(/^\[?(\d{1,2}:\d{2}(?::\d{2})?)\]?\s*[-–]?\s*(.+)$/);if(m)segs.push([ts(m[1]),m[2].trim()])})}
+ else{est=true;const s=raw.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/);let t=0;for(let i=0;i<s.length;i+=2){const x=s.slice(i,i+2).join(' ');segs.push([Math.round(t),x]);t+=x.split(' ').length/2.5}}
+ return{segs,est}}
+// ---------- analysis ----------
+function localAnalyze(segs){const M=new Map();let words=0;
+ segs.forEach(([t,x],i)=>{const w=[...x.toLowerCase().matchAll(/[a-z][a-z0-9+#]{2,}/g)].map(m=>m[0]);words+=x.split(/\s+/).length;
+  const add=(k,f)=>{let e=M.get(k);if(!e){e={k,c:0,f:{},s:new Set(),n:k.split(' ').length};M.set(k,e)}e.c++;e.f[f]=(e.f[f]||0)+1;e.s.add(i)};
+  w.forEach((a,j)=>{if(STOP.has(a))return;add(stem(a),a);const b=w[j+1];if(b&&!STOP.has(b))add(stem(a)+' '+stem(b),a+' '+b)})});
+ let minC=words>400?3:2;let cand=[...M.values()].filter(e=>e.c>=minC&&e.k.length>3).map(e=>({...e,sc:e.c*(e.n==2?1.8:1)*(1+Math.min(e.s.size,4)*.15)})).sort((a,b)=>b.sc-a.sc);const out=[];
+ for(const e of cand){if(out.length>=10)break;
+  if(e.n==1&&out.some(o=>o.n==2&&o.k.split(' ').includes(e.k)&&o.c>=e.c*.6))continue;
+  if(e.n==2){const i=out.findIndex(o=>o.n==1&&e.k.split(' ').includes(o.k)&&e.c>=o.c*.6);if(i>=0)out.splice(i,1)}out.push(e)}
+ const concepts=out.map(e=>{const f=Object.entries(e.f).sort((a,b)=>b[1]-a[1])[0][0];return{name:f[0].toUpperCase()+f.slice(1)}});
+ const sw=segs.map(s=>s[1].split(/\s+/).length),sl=words/Math.max(1,segs.reduce((a,s)=>a+(s[1].match(/[.!?]/g)||[]).length,0));
+ return{concepts,words,level:sl>18?'Advanced':sl>12?'Intermediate':'Beginner'}}
+function finalize(l,an){an.concepts=an.concepts.map(c=>{const s=[];l.segs.forEach((x,i)=>{if(rx(c.name).test(x[1]))s.push(i)});return{...c,segs:s,t:s.length?l.segs[s[0]][0]:0}}).filter(c=>c.segs.length);
+ const sc=l.segs.map((x,i)=>[i,an.concepts.filter(c=>c.segs.includes(i)).length]).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]).sort((a,b)=>a-b);
+ an.summary=an.summary||sc.map(i=>l.segs[i][1]).join(' ');an.density=Math.round(100*l.segs.filter((x,i)=>an.concepts.some(c=>c.segs.includes(i))).length/l.segs.length);
+ an.dur=l.segs.length?l.segs[l.segs.length-1][0]+30:0;l.an=an}
+const linksOf=l=>LIB.filter(o=>o.id!==l.id).map(o=>{const ot=o.segs.map(s=>s[1]).join(' '),lt=l.segs.map(s=>s[1]).join(' ');
+ const a=l.an.concepts.filter(c=>rx(c.name).test(ot)),b=o.an.concepts.filter(c=>rx(c.name).test(lt));
+ const sc=((a.length/(l.an.concepts.length||1))+(b.length/(o.an.concepts.length||1)))/2;
+ return{o,pct:Math.round(sc*100),shared:[...new Set([...a,...b].map(c=>c.name))]}}).filter(x=>x.shared.length).sort((x,y)=>y.pct-x.pct);
+// ---------- pipeline ----------
+const log=(h,c)=>{const t=$('term');t.insertAdjacentHTML('beforeend',`<div><span class="${c||'ok'}">${c=='wr'?'!':'✓'}</span> ${h}</div>`);t.scrollTop=1e9};
+async function process(title,segs,est,vid,fast){const T=fast?60:420;$('term').classList.remove('hide');$('term').innerHTML='<div class="mute">$ accesslearn analyze "'+esc(title)+'"</div>';
+ if(segs.length<2){log('parse: no usable transcript lines found','wr');return false}
+ const l={id:Date.now()+Math.floor(Math.random()*999),title,segs,est};await sleep(T);
+ log(`ingest: ${segs.length} segments, timestamps ${est?'<span class="wr">estimated</span>':'from file'}`);await sleep(T);
+ const la=localAnalyze(segs);log(`tokenize + stem, extract: ${la.concepts.length} candidate concepts (frequency x phrase weighting)`);await sleep(T);
+ finalize(l,{concepts:la.concepts,level:la.level,ai:false});
+ if(sample){log('ai.refine: asking Claude for definitions, level, prerequisites, quiz…');try{const r=await sample.json(`You analyse a lecture transcript for students. Lecture title: ${title}\nReturn only JSON: {"summary":string (max 55 words, plain language),"level":"Beginner"|"Intermediate"|"Advanced","concepts":[{"name":string (1-3 words, exactly as written in the transcript),"definition":string (max 20 words)}] (8 to 12 key technical concepts),"prerequisites":[string] (max 4),"quiz":[{"q":string,"a":string}] (3 items)}\n\nTRANSCRIPT:\n${segs.map(s=>'@'+Math.round(s[0])+': '+s[1]).join('\n').slice(0,11000)}`);
+  if(r&&r.concepts&&r.concepts.length){finalize(l,{concepts:r.concepts.map(c=>({name:String(c.name),def:c.definition})),summary:r.summary,level:r.level||la.level,prereq:r.prerequisites||[],quiz:r.quiz||[],ai:true});log(`ai.refine: ${l.an.concepts.length} concepts with definitions, level ${l.an.level}`)}}catch(e){log('ai.refine skipped, using local extraction','wr')}}
+ else log('ai.refine unavailable here, using local extraction','wr');
+ await sleep(T);LIB.push(l);if(vid)VID[l.id]=vid;const ln=linksOf(l);log(`link: compared with ${LIB.length-1} lecture(s)`+(ln[0]?`, best match “${esc(ln[0].o.title)}” ${ln[0].pct}%`:''));await sleep(T);
+ persist();log('index: saved to library');await sleep(T);cur=l.id;return true}
+// ---------- render ----------
+const TABS=[['over','overview'],['con','concepts'],['tr','transcript'],['link','linked'],['graph','graph'],['ask','ask-ai'],['json','json']];
+const curL=()=>LIB.find(l=>l.id===cur);
+function render(){if(!curL())cur=LIB[0]?.id??null;
+ $('lib').innerHTML=LIB.map(l=>`<div class="li ${l.id===cur?'on':''}" data-o="${l.id}"><div><b style="color:${colOf(l.id)}">● </b><b>${esc(l.title)}</b><small>${l.an.concepts.length} concepts · ${l.segs.length} segs${l.an.ai?' · AI':''}</small></div><button class="x" data-d="${l.id}" title="Delete">✕</button></div>`).join('')||'<div class="mute" style="font-size:13px">No lectures yet.</div>';
+ $('tabs').innerHTML=TABS.map(t=>`<button class="tab ${t[0]===tab?'on':''}" data-t="${t[0]}">${t[1]}</button>`).join('');
+ const l=curL(),p=$('pane');
+ if(!l){p.innerHTML='<div class="card"><h2>Turn any lecture into a connected knowledge base</h2><p class="mute">Upload a transcript (and video). AccessLearn extracts key concepts, finds where they appear, measures difficulty, and links the lecture to every other lecture you add.</p><button class="btn" id="n2">Upload your first lecture</button> <button class="btn g" id="s2">Load sample Java course</button></div>';return}
+ ({over:vOver,con:vCon,tr:vTr,link:vLink,graph:vGraph,ask:vAsk,json:vJson})[tab](l,p)}
+function vOver(l,p){const a=l.an,ln=linksOf(l),mx=Math.max(1,...a.concepts.map(c=>c.segs.length));
+ p.innerHTML=`<div class="grid">${[[a.concepts.length,'key concepts'],[l.segs.length,'segments'],[fmt(a.dur),'duration'],[ln.length,'linked lectures'],[a.density+'%','jargon density'],[a.level,'difficulty']].map(m=>`<div class="m"><b style="${m[0].length>6?'font-size:18px;padding:5px 0':''}">${m[0]}</b><span>${m[1]}</span></div>`).join('')}</div>
+ <div class="card"><h3>Summary ${a.ai?'<span class="chip">AI</span>':'<span class="chip hot">local</span>'}</h3><div>${esc(a.summary)}</div>${l.est?'<p class="mute" style="font-size:12px;margin:8px 0 0">Timestamps are estimated because the transcript had none.</p>':''}</div>
+ <div class="card"><h3>Concept coverage</h3>${a.concepts.map(c=>`<div class="row" style="margin:5px 0"><span style="min-width:150px;font-size:13px">${esc(c.name)}</span><div class="bar" style="flex:1"><i style="width:${100*c.segs.length/mx}%"></i></div><span class="mono mute" style="font-size:12px">${c.segs.length}×</span></div>`).join('')}</div>
+ ${a.prereq?.length?`<div class="card"><h3>Know these first</h3>${a.prereq.map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div>`:''}
+ ${a.quiz?.length?`<div class="card"><h3>Self-check quiz</h3>${a.quiz.map((q,i)=>`<details style="margin:6px 0"><summary>${i+1}. ${esc(q.q)}</summary><div class="mute" style="padding:6px 0 0 14px">${esc(q.a)}</div></details>`).join('')}</div>`:(sample?'':'<div class="card mute">Open this page inside Claude to unlock AI definitions, prerequisites and a quiz for every lecture.</div>')}`}
+function vCon(l,p){p.innerHTML=l.an.concepts.map(c=>`<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">${esc(c.name)}</h3><span class="mono mute" style="font-size:12px">${c.segs.length} mention${c.segs.length>1?'s':''}</span></div>${c.def?`<div class="mute" style="margin:4px 0">${esc(c.def)}</div>`:''}<div style="margin-top:6px">${c.segs.slice(0,8).map(i=>`<button class="chip" data-at="${l.id}|${l.segs[i][0]}|${esc(c.name)}">▶ ${fmt(l.segs[i][0])}</button>`).join('')}</div></div>`).join('')}
+function vTr(l,p){const names=l.an.concepts.map(c=>c.name).sort((a,b)=>b.length-a.length),all=names.length?new RegExp('\\b('+names.map(n=>n.trim().split(/\s+/).map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('\\s+')).join('|')+')(?:es|s)?\\b','ig'):null;
+ p.innerHTML=(VID[l.id]?`<video controls src="${VID[l.id]}" id="vd"></video>`:'<div class="mute" style="font-size:12px;margin-bottom:8px">No video attached in this session. Re-upload with a video to enable playback.</div>')+(selC?`<div class="card" style="padding:8px 12px">Highlighting <b>${esc(selC)}</b> <button class="chip" data-clr="1">clear</button></div>`:'')+l.segs.map(([t,x])=>`<div class="seg" data-t="${t}"><span class="ts">${fmt(t)}</span><div>${all?esc(x).replace(all,m=>`<mark class="${selC&&rx(selC).test(m)?'sel':''}">${m}</mark>`):esc(x)}</div></div>`).join('');
+ const v=$('vd');if(v)v.ontimeupdate=()=>{const s=[...document.querySelectorAll('.seg')];s.forEach(e=>e.classList.remove('now'));const a=s.filter(e=>+e.dataset.t<=v.currentTime).pop();a&&a.classList.add('now')}}
+function vLink(l,p){const ln=linksOf(l);p.innerHTML=ln.length?ln.map(x=>`<div class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0;color:${colOf(x.o.id)}">${esc(x.o.title)}</h3><b class="mono">${x.pct}% related</b></div><div class="bar" style="margin:8px 0"><i style="width:${x.pct}%"></i></div><div class="lt mute" style="font-size:12px">Shared concepts, click to jump into that lecture:</div>${x.shared.map(n=>{const c=x.o.an.concepts.find(c=>c.name.toLowerCase()==n.toLowerCase());const i=x.o.segs.findIndex(s=>rx(n).test(s[1]));return`<button class="chip ${c?'':'hot'}" data-at="${x.o.id}|${i>=0?x.o.segs[i][0]:0}|${esc(n)}">${esc(n)}</button>`}).join('')}</div>`).join(''):'<div class="card"><h3>No linked lectures yet</h3><p class="mute">Add another lecture on a related topic, or load the sample course, and links appear here automatically.</p></div>'}
+// graph
+let G=null,raf=0;
+function vGraph(l,p){p.innerHTML='<canvas id="gc"></canvas><div class="mute" style="font-size:12px;margin:8px 0">Big dots are lectures. Small dots are concepts. Amber concepts appear in more than one lecture and are the links between them. Click a node.</div><div id="gi"></div>';
+ const nodes=[],edges=[],cm=new Map(),cvs=$('gc'),r=cvs.getBoundingClientRect(),d=devicePixelRatio||1,W=r.width,H=r.height;cvs.width=W*d;cvs.height=H*d;
+ LIB.forEach(x=>{nodes.push({id:'L'+x.id,lab:x.title,L:x,x:W/2+(Math.random()-.5)*200,y:H/2+(Math.random()-.5)*200,vx:0,vy:0});x.an.concepts.forEach(c=>{const k=c.name.toLowerCase().split(' ').map(stem).join(' ');let n=cm.get(k);if(!n){n={id:'C'+k,lab:c.name,C:1,deg:0,lids:[],x:W/2+(Math.random()-.5)*300,y:H/2+(Math.random()-.5)*300,vx:0,vy:0};cm.set(k,n);nodes.push(n)}n.deg++;n.lids.push(x.id);edges.push(['L'+x.id,'C'+k])})});
+ const byId=Object.fromEntries(nodes.map(n=>[n.id,n]));G={nodes};let al=1;cancelAnimationFrame(raf);const cx=cvs.getContext('2d');cx.setTransform(d,0,0,d,0,0);
+ const tick=()=>{al=Math.max(.03,al*.985);for(const a of nodes){for(const b of nodes){if(a===b)continue;let dx=a.x-b.x,dy=a.y-b.y,q=dx*dx+dy*dy+.1,f=(a.L&&b.L?5200:1800)/q*al;a.vx+=dx*f;a.vy+=dy*f}a.vx+=(W/2-a.x)*.002*al;a.vy+=(H/2-a.y)*.002*al}
+  edges.forEach(([s,t])=>{const a=byId[s],b=byId[t],dx=b.x-a.x,dy=b.y-a.y,k=.012*al*(Math.hypot(dx,dy)-70)/Math.max(1,Math.hypot(dx,dy));a.vx+=dx*k;a.vy+=dy*k;b.vx-=dx*k;b.vy-=dy*k});
+  nodes.forEach(n=>{n.vx*=.8;n.vy*=.8;n.x=Math.max(30,Math.min(W-30,n.x+n.vx));n.y=Math.max(20,Math.min(H-20,n.y+n.vy))});
+  cx.clearRect(0,0,W,H);edges.forEach(([s,t])=>{const a=byId[s],b=byId[t];cx.strokeStyle=(b.deg>1?'#d2992277':'#8b949e44');cx.lineWidth=b.deg>1?1.6:1;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()});
+  cx.textAlign='center';cx.font='600 11px Inter,sans-serif';const ink=getComputedStyle(document.body).color;
+  nodes.forEach(n=>{const rr=n.L?15:n.deg>1?8:5,c=n.L?colOf(n.L.id):n.deg>1?'#d29922':'#8b949e';if(n.L||n.deg>1){const g=cx.createRadialGradient(n.x,n.y,1,n.x,n.y,rr*2.4);g.addColorStop(0,c+'88');g.addColorStop(1,c+'00');cx.fillStyle=g;cx.beginPath();cx.arc(n.x,n.y,rr*2.4,0,7);cx.fill()}cx.fillStyle=c;cx.beginPath();cx.arc(n.x,n.y,rr,0,7);cx.fill();cx.fillStyle=ink;cx.fillText(n.L?n.lab.slice(0,26):n.lab,n.x,n.y+rr+12)});
+  raf=requestAnimationFrame(tick)};tick();
+ cvs.onclick=e=>{const b=cvs.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;const n=nodes.filter(n=>Math.hypot(n.x-x,n.y-y)<22).sort((a,c)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(c.x-x,c.y-y))[0];if(!n)return;
+  $('gi').innerHTML=n.L?`<div class="card"><h3>${esc(n.lab)}</h3><button class="btn" data-o="${n.L.id}" data-go="over">Open lecture</button></div>`:`<div class="card"><h3>${esc(n.lab)}</h3><div class="mute" style="margin-bottom:6px">${n.deg>1?'Link concept, taught in '+n.deg+' lectures:':'Appears in:'}</div>${n.lids.map(id=>{const x=LIB.find(l=>l.id===id),i=x.segs.findIndex(s=>rx(n.lab).test(s[1]));return`<button class="chip" data-at="${id}|${i>=0?x.segs[i][0]:0}|${esc(n.lab)}">${esc(x.title)} · ${fmt(i>=0?x.segs[i][0]:0)}</button>`}).join('')}</div>`}}
+// ask
+function vAsk(l,p){const top=l.an.concepts.slice(0,3).map(c=>`Explain ${c.name} simply`);p.innerHTML=`<div class="card"><h3>Ask across all ${LIB.length} lecture(s)</h3><div class="row"><input type="text" id="aq" placeholder="e.g. How does ${esc(l.an.concepts[0]?.name||'this')} connect to other lectures?"><button class="btn" id="ab">Ask</button></div><div style="margin-top:8px">${[...top,'What should I revise first?'].map(s=>`<button class="chip" data-q="${esc(s)}">${esc(s)}</button>`).join('')}</div><div id="ao" style="margin-top:12px"></div></div>`}
+async function ask(q){q=q.trim();const o=$('ao');if(!q||!o)return;if(!sample){o.innerHTML='<p class="mute">AI answers work when this page is opened inside Claude.</p>';return}o.innerHTML='<p class="mute">Reading your lectures…</p>';
+ const lib=LIB.map(l=>l.segs.map(s=>`L${LIB.indexOf(l)+1}@${Math.round(s[0])}: ${s[1]}`).join('\n')).join('\n').slice(0,16000);
+ try{const r=await sample.json(`You are AccessLearn AI, a study assistant. Answer ONLY from the lecture excerpts below (format L<lecture number>@<start second>). Use simple words, max 80 words. If it is not covered, say so.\nReturn only JSON: {"answer":string,"sources":[{"l":number,"t":number}]} citing the lecture number and start second of excerpts you used.\n\nEXCERPTS:\n${lib}\n\nQUESTION: ${q}`);
+  const src=(r.sources||[]).map(s=>({x:LIB[s.l-1],t:s.t})).filter(s=>s.x);o.innerHTML=`<div style="white-space:pre-wrap">${esc(r.answer)}</div><div class="mute" style="font-size:12px;margin:10px 0 4px">Sources (click to open the moment):</div>`+src.map(s=>`<button class="chip" data-at="${s.x.id}|${s.t}|">${esc(s.x.title)} · ${fmt(s.t)}</button>`).join('')}catch(e){o.innerHTML='<p class="mute">The AI could not answer right now. Try again.</p>'}}
+function vJson(l,p){const j={title:l.title,estimatedTimestamps:l.est,stats:{segments:l.segs.length,words:l.an.words,durationSec:l.an.dur,level:l.an.level,jargonDensityPct:l.an.density,aiRefined:l.an.ai},concepts:l.an.concepts.map(c=>({name:c.name,definition:c.def||null,firstSeenSec:c.t,mentions:c.segs.length})),links:linksOf(l).map(x=>({lecture:x.o.title,relatedPct:x.pct,shared:x.shared})),prerequisites:l.an.prereq||[],quiz:l.an.quiz||[]};
+ p.innerHTML=`<div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="mute mono" style="font-size:12px">GET /api/lectures/${l.id}</span>${dl?'<button class="btn g" id="ex">Export JSON</button>':''}</div><pre>${esc(JSON.stringify(j,null,2))}</pre>`;if($('ex'))$('ex').onclick=()=>dl.save({filename:'lecture-analysis.json',data:JSON.stringify(j,null,2)}).catch(()=>{})}
+// events
+function openAt(id,t,c){cur=id;tab='tr';selC=c||null;render();const v=$('vd');if(v){v.currentTime=t;v.play().catch(()=>{})}const e=[...document.querySelectorAll('.seg')].filter(s=>+s.dataset.t<=t).pop();if(e){e.classList.add('now');e.scrollIntoView({block:'center'})}}
+document.addEventListener('click',e=>{const T=e.target;let c;
+ if(T.id==='nb'||T.id==='n2'){$('up').classList.remove('hide');return}
+ if(T.id==='cl'){$('up').classList.add('hide');$('term').classList.add('hide');render();return}
+ if(T.id==='s2'||T.id==='sm'){runSample();return}
+ if(T.id==='go'){runUpload();return}
+ if(T.id==='ab'){ask($('aq').value);return}
+ if(c=T.closest('[data-d]')){LIB=LIB.filter(l=>l.id!==+c.dataset.d);persist();render();return}
+ if(c=T.closest('[data-o]')){cur=+c.dataset.o;if(c.dataset.go)tab=c.dataset.go;render();return}
+ if(c=T.closest('[data-t]')&&T.closest('.tab')){tab=T.closest('.tab').dataset.t;render();return}
+ if(c=T.closest('[data-at]')){const [i,t,n]=c.dataset.at.split('|');openAt(+i,+t,n);return}
+ if(c=T.closest('[data-q]')){$('aq').value=c.dataset.q;ask(c.dataset.q);return}
+ if(T.dataset.clr){selC=null;render();return}
+ if(c=T.closest('.seg')){const v=$('vd');if(v){v.currentTime=+c.dataset.t;v.play().catch(()=>{})}document.querySelectorAll('.seg').forEach(s=>s.classList.remove('now'));c.classList.add('now')}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='aq')ask(e.target.value)});
+// upload
+async function useFile(f){if(!f)return;pending.text=await f.text();pending.fname=f.name;$('tfn').textContent=f.name+' loaded';if(!$('tt').value)$('tt').value=f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ')}
+$('tf').onchange=e=>useFile(e.target.files[0]);
+const dz=$('dz');dz.ondragover=e=>{e.preventDefault();dz.classList.add('on')};dz.ondragleave=()=>dz.classList.remove('on');dz.ondrop=e=>{e.preventDefault();dz.classList.remove('on');useFile(e.dataTransfer.files[0])};
+$('vf').onchange=e=>{const f=e.target.files[0];if(f){pending.vid=URL.createObjectURL(f);$('vfn').textContent=f.name}};
+async function runUpload(){const raw=($('tp').value.trim()||pending.text),title=$('tt').value.trim()||'Untitled lecture';if(!raw){alert('Add a transcript file or paste text first.');return}
+ const {segs,est}=parse(raw);$('go').disabled=true;const ok=await process(title,segs,est,pending.vid);$('go').disabled=false;if(ok){pending={vid:null,fname:'',text:''};$('tp').value='';$('tt').value='';$('tfn').textContent='';$('vfn').textContent='';await sleep(500);$('up').classList.add('hide');$('term').classList.add('hide');tab='over';render()}}
+async function runSample(){$('sm').disabled=true;for(const [t,s] of SAMPLE){if(!LIB.some(l=>l.title===t))await process(t,s,false,null,true)}await sleep(400);$('sm').disabled=false;$('up').classList.add('hide');$('term').classList.add('hide');tab='link';cur=LIB[LIB.length-1].id;render()}
+render();
+</script></body></html>
